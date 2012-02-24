@@ -5,10 +5,10 @@ Directory structure is as follows:
 project_name/
     .gitignore
     conf/ (Server configurations)
-      apache.conf
-      django.wsgi
-      nginx.conf
-      requirments.txt
+        apache.conf
+        django.wsgi
+        nginx.conf
+        requirments.txt
     fabfile.py (Deployment script)
     media/ (Uploaded media)
     README
@@ -33,13 +33,13 @@ project_name/
 INSTALL
 =======
 
-git clone https://github.com/macmichael01/django-base
-cd django-base
-sudo python setup.py install
+    git clone https://github.com/macmichael01/django-base;
+    cd django-base;
+    sudo python setup.py install;
 
 OR
 
-easy_install django-base
+    easy_install django-base
 
 USAGE:
 =====
@@ -61,3 +61,5 @@ optional arguments:
   --database DATABASE   database module to use, choices: postgresql_psycopg2,
                         postgresql, mysql, sqlite3 or oracle, default:
                         postgresql_psycopg2
+
+NOTE: The library makes use of argparse which was made available in python 2.7. Backwards compatible testing has not been done.
