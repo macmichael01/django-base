@@ -1,0 +1,13 @@
+# Recommended Installs
+anyjson
+beautifulsoup
+distribute
+django==1.3
+django_compressor
+fabric
+markdown
+PIL
+psycopg2
+pygments
+python-memcached
+south

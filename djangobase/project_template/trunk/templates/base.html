@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{# {% load i18n %} #}
+{% load  compress %}
+<html>
+    <head>
+        <title>{{ Title }}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+  		  <meta name="author" content="" >
+
+    		<link rel="Shortcut Icon" href="{{ STATIC_URL }}img/favicon.ico" >
+    		<link rel="icon" href="{{ STATIC_URL }}img/favicon.ico" type="image/x-icon" >
+
+        {% compress css %}
+          	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css" >
+            <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css" >
+        {% endcompress %}
+
+        {% block extra-css %}{% endblock %}
+    </head>
+    <body>
+      {% block content %}
+
+      {% endblock %}
+    </body>
+    {% compress css %}
+        <script src="{{ STATIC_URL }}js/base.js" type="text/javascript" charset="utf-8"></script>
+    {% endcompress %}
+    {% block extrajs %}{% endblock %}
+</html>

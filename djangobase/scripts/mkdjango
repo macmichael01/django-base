@@ -1,0 +1,6 @@
+#!/usr/bin/python
+from djangobase.command import GenerateProject
+
+if __name__ == "__main__":
+  gen = GenerateProject()
+  gen.create()
