@@ -1,0 +1,13 @@
+*.py[co]
+._*
+*~
+.DS_Store
+.httpasswd
+.hgignore
+.svn
+.hg
+env
+build
+pip-log.txt
+Thumbs.db
+Desktop.ini
