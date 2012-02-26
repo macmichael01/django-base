@@ -1,6 +1,6 @@
 **ABOUT**
 
-Django Base is an automated way to create a Django project directory structure. Once installed, creating a new django project is as easy as running the following command from a terminal: mkdjango project_name.
+Django Base is an automated way to create a Django project directory structure. Once installed, creating a new Django project is as easy as running the following command from a terminal: mkdjango project_name.
 
 Directory structure is as follows:
 
@@ -10,15 +10,15 @@ Directory structure is as follows:
             apache.conf
             django.wsgi
             nginx.conf
-            requirments.txt
+            requirements.txt
         fabfile.py (Deployment script)
-        media/ (Uploaded media)
+        media/ (Uploaded media directory)
         README
         trunk/
             apps/ (project apps here)
             settings.py
             settings_local.py
-            static/
+            static/ (Static media directory)
                 CACHE/ (Compiled CSS and JS)
                 css/
                     base.css
