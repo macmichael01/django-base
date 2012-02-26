@@ -14,7 +14,7 @@ for dirpath, dirnames, filenames in os.walk(django_base_dir):
 
 setup(
     name='Django-base',
-    version='0.90',
+    version='0.91',
     url="https://github.com/macmichael01/django-base",
     author='Chris McMichael',
     author_email='macmichael01@gmail.com',

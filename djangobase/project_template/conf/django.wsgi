@@ -2,7 +2,7 @@ import os
 import sys
 import site
 
-PATH = '/usr/local/projects/{{ PROJECT }}'
+PATH = '{{ SERVER_PATH }}'
 
 # Virtualenv
 site.addsitedir('%s/env/lib/python2.6/site-packages' % PATH)

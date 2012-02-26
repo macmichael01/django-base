@@ -44,7 +44,12 @@ class GenerateProject(object):
        help="port number, default: 8080")
 
     parser.add_argument("-D", "--dest", dest="dest", type=str,
+        default=DESTINATION,
         help="destination folder, default: current working directory")
+
+    parser.add_argument("-S", "--serverpath", dest="server_path",
+        type=str, default="/usr/local/projects/",
+        help="Path to the project location on the server.")
 
     parser.add_argument("--database", dest="database",
         type=str, default="postgresql_psycopg2",
@@ -66,6 +71,8 @@ class GenerateProject(object):
 
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
         secret = ''.join([random.choice(chars) for i in range(50)])
+        server_path = os.path.join(self.args_dict.server_path,
+                                   self.args_dict.project)
 
         render_dict = {
             "PROJECT": self.args_dict.project,
@@ -73,14 +80,12 @@ class GenerateProject(object):
             "HOSTNAME": self.args_dict.hostname,
             "PORT": self.args_dict.port,
             "DATABASE": self.args_dict.database,
+            "SERVER_PATH": server_path,
         }
 
         source_path = os.path.join(SOURCE, "project_template")
-
-        if self.args_dict.dest:
-            dest_path = os.path.join(self.args_dict.dest, self.args_dict.project)
-        else:
-            dest_path = os.path.join(DESTINATION, self.args_dict.project)
+        dest_path = os.path.join(self.args_dict.dest, self.args_dict.project)
+        
         for root, dirs, files in os.walk(source_path):
             dest = "%s%s" % (dest_path, root.replace(source_path, ''))
             if not os.path.isdir(dest):

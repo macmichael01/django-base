@@ -32,7 +32,7 @@ Directory structure is as follows:
             urls.py
 
 
-**INSTALL**
+**INSTALLATION**
 
     git clone https://github.com/macmichael01/django-base;
     cd django-base;
@@ -58,6 +58,9 @@ OR
                             hostname, default: localhost
       -P PORT, --port PORT  port number, default: 8080
       -D DEST, --dest DEST  destination folder, default: current working directory
+      -S SERVER_PATH, --serverpath SERVER_PATH
+	                        Path to the project location on the server.
+
       --database DATABASE   database module to use, choices: postgresql_psycopg2,
                             postgresql, mysql, sqlite3 or oracle, default:
                             postgresql_psycopg2
