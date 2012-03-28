@@ -4,33 +4,52 @@ Django Base is an automated way to create a Django project directory structure. 
 
 Directory structure is as follows:
 
-    project_name/
-        .gitignore
-        conf/ (Server configurations)
-            apache.conf
-            django.wsgi
-            nginx.conf
-            requirements.txt
-        fabfile.py (Deployment script)
-        media/ (Uploaded media directory)
-        README
-        trunk/
-            apps/ (project apps here)
-            settings.py
-            settings_local.py
-            static/ (Static media directory)
-                CACHE/ (Compiled CSS and JS)
-                css/
-                    base.css
-                    reset.css
-                img/
-                js/
-                    base.js
-            templates/
-                base.html
-                index.html
-            urls.py
-
+    Project/
+    |-- .gitignore
+    |-- conf/ (Server configurations)
+    |   |-- apache.conf
+    |   |-- nginx.conf
+    |   |-- requirements.txt
+    |
+    |-- docs/
+    |   |-- <Documentation Here>
+    |
+    |-- fabfile.py
+    |-- media/
+    |   |-- <Uploaded Media Here>
+    |
+    |-- README
+    |-- Project/
+    |    |-- apps/
+    |    |   |-- <Django Apps Here>
+    |    |
+    |    |-- settings.py
+    |    |-- settings_local.py
+    |    |-- static/
+    |    |   |-- CACHE/
+    |    |   |   |-- css/
+    |    |   |   |   |-- <Compiled CSS Here>
+    |    |   |   |   |
+    |    |   |   |-- js/
+    |    |   |       |-- <Compiled JS Here> 
+    |    |   |
+    |    |   |-- css/
+    |    |   |   |-- base.css
+    |    |   |   |-- reset.css
+    |    |   |
+    |    |   |-- img/
+    |    |   |   |-- <Static Images Here>
+    |    |   |
+    |    |   |-- js/
+    |    |      |-- base.js
+    |    |
+    |    |-- wsgi.py
+    |
+    |-- templates/
+    |   |-- base.html
+    |   |-- index.html
+    |
+    |-- urls.py
 
 **INSTALLATION**
 
