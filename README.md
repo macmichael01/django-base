@@ -63,10 +63,12 @@ OR
 
 **USAGE**
 
-    usage: mkdjango [-h] [-H HOSTNAME] [-P PORT] [-D DEST] [--database DATABASE]
+    usage: mkdjango [-h] [-H HOSTNAME] [-P PORT] [-D DEST] [-p PATH]
+                    [--database DATABASE] [--config CONFIG] [-T TEMPLATE]
+                    [-W WIZARD] [-v VERBOSE]
                     project
     
-    Django-base project creator.
+    Django-base project creator. V0.96
     
     positional arguments:
       project               project name used as project directory name.
@@ -75,13 +77,19 @@ OR
       -h, --help            show this help message and exit
       -H HOSTNAME, --hostname HOSTNAME
                             hostname, default: localhost
-      -P PORT, --port PORT  port number, default: 8080
-      -D DEST, --dest DEST  destination folder, default: current working directory
-      -S SERVER_PATH, --serverpath SERVER_PATH
-	                        Path to the project location on the server.
-
+      -P PORT, --port PORT  port number, default: 80
+      -D DEST, --dest DEST  Destination folder, default: current working directory
+      -p PATH, --path PATH  Path to the project location on the server.
       --database DATABASE   database module to use, choices: postgresql_psycopg2,
                             postgresql, mysql, sqlite3 or oracle, default:
                             postgresql_psycopg2
+      --config CONFIG       1) Apache wsgi, 2) Apache wsgi with SSL, 3) Nginx
+                            proxy & media server, with Apache wsgi 4) Nginx proxy
+                            & media server with SSL, with Apache wsgi with SSL
+                            forwarding
+      -T TEMPLATE, --template TEMPLATE
+                            Custom project template directory.
+      -v VERBOSE, --verbose VERBOSE
+                            Display verbosity
 
 *NOTE*: The library makes use of argparse which was made available in python 2.7. 

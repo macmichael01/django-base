@@ -31,7 +31,7 @@ SERVER_EMAIL = '"Webmaster" <Webmaster@{{ HOSTNAME }}>'
 
 DATABASES = {
     'default': {
-        # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'
+        # 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'
         'ENGINE': 'django.db.backends.{{ DATABASE }}',
         'NAME': '{{ PROJECT }}',
         'USER': '{{ PROJECT }}',
@@ -54,17 +54,20 @@ LANGUAGE_CODE = 'en-us'
 
 USE_I18N = True
 USE_L10N = True
+{% if VERSION >= 1.4 %}
+# Django timezone-aware datetimes.
+USE_TZ = True{% endif %}
 
 USE_ETAGS = True
 
 MEDIA_ROOT = os.path.join(SITE_ROOT, '../media/')
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = ''
-
+{% if VERSION == 1.3 %}
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
-
+{% endif %}
 STATIC_ROOT = os.path.join(SITE_ROOT, 'static/')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
@@ -106,9 +109,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware',{% if VERSION >= 1.4 %}
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',{% endif %}
 )
-
+{% if VERSION >= 1.4 %}
+WSGI_APPLICATION = '{{ PROJECT }}.wsgi.application'
+{% endif %}
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
@@ -140,7 +146,12 @@ INSTALLED_APPS = (
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': False,{% if VERSION >= 1.4 %}
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },{% endif %}
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
@@ -150,7 +161,8 @@ LOGGING = {
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
-            'level': 'ERROR',
+            'level': 'ERROR',{% if VERSION >= 1.4 %}
+            'filters': ['require_debug_false'],{% endif %}
             'propagate': True,
         },
     }
