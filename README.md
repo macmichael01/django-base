@@ -63,33 +63,44 @@ OR
 
 **USAGE**
 
-    usage: mkdjango [-h] [-H HOSTNAME] [-P PORT] [-D DEST] [-p PATH]
-                    [--database DATABASE] [--config CONFIG] [-T TEMPLATE]
-                    [-W WIZARD] [-v VERBOSE]
-                    project
-    
-    Django-base project creator. V0.96
-    
-    positional arguments:
-      project               project name used as project directory name.
-    
-    optional arguments:
-      -h, --help            show this help message and exit
-      -H HOSTNAME, --hostname HOSTNAME
-                            hostname, default: localhost
-      -P PORT, --port PORT  port number, default: 80
-      -D DEST, --dest DEST  Destination folder, default: current working directory
-      -p PATH, --path PATH  Path to the project location on the server.
-      --database DATABASE   database module to use, choices: postgresql_psycopg2,
-                            postgresql, mysql, sqlite3 or oracle, default:
-                            postgresql_psycopg2
-      --config CONFIG       1) Apache wsgi, 2) Apache wsgi with SSL, 3) Nginx
-                            proxy & media server, with Apache wsgi 4) Nginx proxy
-                            & media server with SSL, with Apache wsgi with SSL
-                            forwarding
-      -T TEMPLATE, --template TEMPLATE
-                            Custom project template directory.
-      -v VERBOSE, --verbose VERBOSE
-                            Display verbosity
+    usage: Django Base [-h] [--hostname HOSTNAME] [--port PORT] [--dest DEST]
+                       [--path PATH] [--database DATABASE] [--config CONFIG]
+                       [--template TEMPLATE] [-w] [-v] [--version]
+                       [project]
 
-*NOTE*: The library makes use of argparse which was made available in python 2.7. 
+    Django-base project creator. v1.0
+
+    positional arguments:
+      project              Project name. default: example
+
+    optional arguments:
+      -h, --help           show this help message and exit
+      --hostname HOSTNAME  hostname, default: localhost
+      --port PORT          port, default: 80
+      --dest DEST          destination folder, default: CWD
+      --path PATH          project production server path.
+      --database DATABASE  database module to use, choices: postgresql_psycopg2,
+                           postgresql, mysql, sqlite3 or oracle, default:
+                           postgresql_psycopg2
+      --config CONFIG      1) Apache WSGI, 2) Apache WSGI with SSL, 3) Nginx proxy
+                           & media server, with Apache WSGI, 4) Nginx proxy &
+                           media server with SSL, with Apache WSGI with SSL
+                           forwarding
+      --template TEMPLATE  custom project template directory
+      -w, --wizard         step-by-step wizard.
+      -v, --verbose        display verbosity
+      --version            show program's version number and exit
+
+When using a custom template directory, the following variables can be used:
+
+    {{ PROJECT }} - project name
+    {{ SECRET }} - secret key
+    {{ HOSTNAME }} - hostname
+    {{ DATABASE }} - Django Database module
+    {{ CONFIG }} - configuration setting [1-4]
+    {{ PORT }} - port number determined by configuration setting [1-2 = 80], [3-4=8080]
+    {{ PATH }} - /path/to/project/
+    {{ PROJECTPATH }} - /path/to/project/project_name
+    {{ VERSION }} - Django version
+
+*NOTE*: The library makes use of argparse which is made available by default in python 2.7.

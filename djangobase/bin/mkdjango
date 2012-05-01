@@ -4,30 +4,32 @@ try:
 except ImportError:
     raise "Python-2.7 is required to run this script"
 
-from djangobase.generator import (GenerateProject, DESTINATION,
+from djangobase.generator import (GenerateProject, DESTINATION, CONFIG,
     __version__)
 
 
 if __name__ == "__main__":
     usage = "Django-base project creator. %s " % __version__
-    parser = argparse.ArgumentParser(description=usage)
+    parser = argparse.ArgumentParser(description=usage, prog="Django Base")
 
-    parser.add_argument(dest="project", type=str,
-        help="project name used as project directory name.")
+    parser.add_argument(dest="project",
+        default='example', nargs='?',
+        help="project name. default: example")
 
-    parser.add_argument("-H", "--hostname", dest="hostname",
+    parser.add_argument("--hostname", dest="hostname",
         default="localhost", type=str, help="hostname, default: localhost")
 
-    parser.add_argument("-P", "--port", dest="port", type=int, default=80,
-       help="port number, default: 80")
+    parser.add_argument("--port", dest="port", type=int, default=80,
+       help="port, default: 80")
 
-    parser.add_argument("-D", "--dest", dest="dest", type=str,
+    dest_str = "Destination folder, default: %s" % DESTINATION
+    parser.add_argument("--dest", dest="dest", type=str,
         default=DESTINATION,
-        help="Destination folder, default: current working directory")
+        help=dest_str)
 
-    parser.add_argument("-p", "--path", dest="path",
+    parser.add_argument("--path", dest="path",
         type=str, default="/usr/local/projects",
-        help="Path to the project location on the server.")
+        help="project production server path.")
 
     parser.add_argument("--database", dest="database",
         type=str, default="postgresql_psycopg2",
@@ -37,19 +39,20 @@ if __name__ == "__main__":
 
     parser.add_argument("--config", dest="config",
         type=int, default=3,
-        help="1) Apache wsgi,\n"
-             "2) Apache wsgi with SSL,\n"
-             "3) Nginx proxy & media server, with Apache wsgi\n"
-             "4) Nginx proxy & media server with SSL, with Apache wsgi "
-             "with SSL forwarding\n")
+        help=CONFIG)
 
-    parser.add_argument("-T", "--template", dest="template", type=str,
-        default=None, help="Custom project template directory.")
+    parser.add_argument("--template", dest="template", type=str,
+        default=None, help="custom project template directory")
 
-    parser.add_argument("-v", "--verbose", dest="verbose", type=bool,
-        default=False, help="Display verbosity")
+    parser.add_argument("-w", "--wizard", dest="wizard", action='store_true',
+        help="step-by-step wizard.")
+
+    parser.add_argument("-v", "--verbose", dest="verbose",
+        action='store_true', help="display verbosity")
+    
+    version_str = '%(prog)s ' + __version__ 
+    parser.add_argument('--version', action='version', version=version_str)
 
     arguments = parser.parse_args()
-    import pdb; pdb.set_trace()
     project_generator = GenerateProject(**arguments.__dict__)
     project_generator.create()

@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 import os
 
-from distutils.core import setup
-
-from setuptools import find_packages
+from setuptools import setup, find_packages
 
 from djangobase.generator import __version__
+
 
 data_files = []
 django_base_dir = 'djangobase/templates'
