@@ -213,8 +213,7 @@ class GenerateProject(object):
         
         for root, dirs, files in os.walk(source_path):
             folder = root.replace(source_path, '')
-            
-            # Used only with the default project template configuration.
+
             # If the current directory selected is trunk rename it
             # to the project name.
             if '/trunk' in folder and self.project != 'trunk':
@@ -233,7 +232,6 @@ class GenerateProject(object):
                 if ".pyc" in f:
                     continue
 
-                # Used only with the default project template configuration.
                 # When config setting 1 or 2 is selected ignore
                 # the nginx.conf since it's not needed.
                 if self.config in [1, 2] and "nginx.conf" in f:
@@ -241,7 +239,6 @@ class GenerateProject(object):
 
                 old_location = os.path.join(root, f)
 
-                # Used only with the default project template configuration.
                 # to avoid installation errors, these django template
                 # files had to be renamed a different extension.
                 if f in ["manage.pyt", "settings.pyt"]:
