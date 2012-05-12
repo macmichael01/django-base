@@ -2,7 +2,7 @@
 anyjson
 beautifulsoup
 distribute
-django==1.3
+django=={{ VERSION }}
 django_compressor
 fabric
 markdown

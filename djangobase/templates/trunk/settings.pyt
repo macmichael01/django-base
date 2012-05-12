@@ -105,6 +105,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -113,7 +114,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',{% endif %}
 )
 {% if VERSION >= 1.4 %}
-WSGI_APPLICATION = '{{ PROJECT }}.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 {% endif %}
 ROOT_URLCONF = 'urls'
 
