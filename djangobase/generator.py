@@ -40,7 +40,7 @@ class GenerateProject(object):
         self.path = "/usr/local/projects"
         self.colorize = {
             'cyan': '\033[36m',
-            'red': '\033[31m%',
+            'red': '\033[31m',
             'reset': '\033[0m',
         }
 
