@@ -78,7 +78,7 @@ OR
       -h, --help            show this help message and exit
       --hostname HOSTNAME   hostname, default: localhost
       --port PORT           port, default: 80
-      --dest DEST           Destination folder, default: /Users/mcmichael/Desktop
+      --dest DEST           Destination folder, default: /path/to/destination
       --path PATH           production server path.
       --database DATABASE   database engine, choices: postgresql_psycopg2,
                             postgresql, mysql, sqlite3 or oracle, default:
