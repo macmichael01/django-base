@@ -12,8 +12,7 @@ if __name__ == "__main__":
     usage = "Django-base project creator. %s " % __version__
     parser = argparse.ArgumentParser(description=usage, prog="Django Base")
 
-    parser.add_argument(dest="project",
-        default='example', nargs='?',
+    parser.add_argument(dest="project", nargs='?',
         help="project name. default: example")
 
     parser.add_argument("--hostname", dest="hostname",
@@ -29,11 +28,11 @@ if __name__ == "__main__":
 
     parser.add_argument("--path", dest="path",
         type=str, default="/usr/local/projects",
-        help="project production server path.")
+        help="production server path.")
 
     parser.add_argument("--database", dest="database",
         type=str, default="postgresql_psycopg2",
-        help="database module to use, choices: postgresql_psycopg2, "
+        help="database engine, choices: postgresql_psycopg2, "
              "postgresql, mysql, sqlite3 or oracle, "
              "default: postgresql_psycopg2")
 
@@ -41,8 +40,11 @@ if __name__ == "__main__":
         type=int, default=3,
         help=CONFIG)
 
+    parser.add_argument("--django-version", dest="version",
+        type=float, default=1.4, help="Django version to use. default: 1.4")
+
     parser.add_argument("--template", dest="template", type=str,
-        default=None, help="custom project template directory")
+        default=None, help="custom template directory")
 
     parser.add_argument("-w", "--wizard", dest="wizard", action='store_true',
         help="step-by-step wizard.")

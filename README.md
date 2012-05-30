@@ -65,31 +65,34 @@ OR
 
     usage: Django Base [-h] [--hostname HOSTNAME] [--port PORT] [--dest DEST]
                        [--path PATH] [--database DATABASE] [--config CONFIG]
-                       [--template TEMPLATE] [-w] [-v] [--version]
+                       [--django-version VERSION] [--template TEMPLATE] [-w] [-v]
+                       [--version]
                        [project]
 
-    Django-base project creator. v1.0
+    Django-base project creator. v1.1
 
     positional arguments:
-      project              Project name. default: example
+      project               project name. default: example
 
     optional arguments:
-      -h, --help           show this help message and exit
-      --hostname HOSTNAME  hostname, default: localhost
-      --port PORT          port, default: 80
-      --dest DEST          destination folder, default: CWD
-      --path PATH          project production server path.
-      --database DATABASE  database module to use, choices: postgresql_psycopg2,
-                           postgresql, mysql, sqlite3 or oracle, default:
-                           postgresql_psycopg2
-      --config CONFIG      1) Apache WSGI, 2) Apache WSGI with SSL, 3) Nginx proxy
-                           & media server, with Apache WSGI, 4) Nginx proxy &
-                           media server with SSL, with Apache WSGI with SSL
-                           forwarding
-      --template TEMPLATE  custom project template directory
-      -w, --wizard         step-by-step wizard.
-      -v, --verbose        display verbosity
-      --version            show program's version number and exit
+      -h, --help            show this help message and exit
+      --hostname HOSTNAME   hostname, default: localhost
+      --port PORT           port, default: 80
+      --dest DEST           Destination folder, default: /Users/mcmichael/Desktop
+      --path PATH           production server path.
+      --database DATABASE   database engine, choices: postgresql_psycopg2,
+                            postgresql, mysql, sqlite3 or oracle, default:
+                            postgresql_psycopg2
+      --config CONFIG       1) Apache WSGI, 2) Apache WSGI with SSL, 3) Nginx
+                            proxy & media server, with Apache WSGI, 4) Nginx proxy
+                            & media server with SSL, with Apache WSGI with SSL
+                            forwarding
+      --django-version VERSION
+                            Django version to use. default: 1.4
+      --template TEMPLATE   custom template directory
+      -w, --wizard          step-by-step wizard.
+      -v, --verbose         display verbosity
+      --version             show program's version number and exit
 
 When using a custom template directory, the following variables can be used:
 
@@ -99,6 +102,7 @@ When using a custom template directory, the following variables can be used:
     {{ DATABASE }} - Django Database module
     {{ CONFIG }} - configuration setting [1-4]
     {{ PORT }} - port number determined by configuration setting [1-2 = 80], [3-4=8080]
+    {{ LOCALPATH }} - /path/to/local/project
     {{ PATH }} - /path/to/project/
     {{ PROJECTPATH }} - /path/to/project/project_name
     {{ VERSION }} - Django version

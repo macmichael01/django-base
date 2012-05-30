@@ -1,4 +1,5 @@
 # Django project settings for {{ HOSTNAME }}
+# Django version {{ VERSION }}
 import os
 
 

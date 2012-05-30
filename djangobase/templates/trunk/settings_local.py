@@ -1,10 +1,17 @@
 # Development settings (exclude from production)
 import os
 
-# from settings import INSTALLED_APPS
+# from settings import INSTALLED_APPS, SITE_ROOT
 
 # DEBUG = True
 # COMPRESS_ENABLED = False
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': '{{ PROJECTPATH }}/db/{{ PROJECT }}.db'
+#     }
+# }
 
 # TEST EMAIL USING GMAIL
 # EMAIL_DEBUG = True

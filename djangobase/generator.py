@@ -7,16 +7,17 @@ import shutil
 from jinja2 import Template
 
 __author__ = "Chris McMichael"
-__version__ = "v1.0"
+__version__ = "v1.1"
 
 
 SOURCE = os.path.abspath(os.path.dirname(__file__))
 DESTINATION = os.getcwd()
+ALLOWED_EXTS = ['.rst', '.pip',]
 CONFIG = """
-    1) Apache WSGI,
-    2) Apache WSGI with SSL,
-    3) Nginx proxy & media server, with Apache WSGI,
-    4) Nginx proxy & media server with SSL, with Apache WSGI with SSL forwarding
+ 1) Apache WSGI,
+ 2) Apache WSGI with SSL,
+ 3) Nginx proxy & media server, with Apache WSGI,
+ 4) Nginx proxy & media server with SSL, with Apache WSGI with SSL forwarding
 """
 
 class GenerateProject(object):
@@ -24,7 +25,7 @@ class GenerateProject(object):
     def __init__(self, project, hostname='localhost', port=80,
         dest=DESTINATION, path='/usr/local/projects',
         database='postgresql_psycopg2', template=None, config=3, wizard=False,
-        verbose=False, version=__version__, *args, **kwargs):
+        verbose=False, version=1.4, *args, **kwargs):
 
         self.project = project
         self.hostname = hostname
@@ -47,9 +48,11 @@ class GenerateProject(object):
     def run_wizard(self):
 
         # Project Name
-        text = "Project name: "
+        text = "Project name%(reset)s: " % self.colorize
         if self.project:
-            text = "Project name [%s]: " % self.project
+            text = "Project name [%(reset)s" % self.colorize
+            text += "%s" % self.project
+            text += "%(cyan)s]%(reset)s: " % self.colorize
 
         values = dict(self.colorize, question=text)
         while True:
@@ -59,16 +62,19 @@ class GenerateProject(object):
             if value:
                 self.project = value
 
-            if self.validate_projectname():
-                break
+                if self.validate_projectname():
+                    break
 
         # Server config.
         text = ""
         while True:
             if not text:
-                text = "Server configuration: \nChoices:%s\nChoice [3]: " % CONFIG
+              text = "Server configuration choices%(reset)s" % self.colorize
+              text += ":%s" % CONFIG
+              text += "%(cyan)sChoice [%(reset)s3%(cyan)s]%(reset)s: " % self.colorize
             else:
-                text = "Choice [3]: "
+                text = ("Choice [%(reset)s3%(cyan)s]%(reset)s: " %
+                    self.colorize)
             values = dict(self.colorize, question=text)
             question = "%(cyan)s%(question)s%(reset)s" % values
             self.config = raw_input(question)
@@ -81,14 +87,14 @@ class GenerateProject(object):
                 self.config = int(self.config)
                 if self.config in [1, 2, 3, 4]:
                     break
-                err = "\n\t%(red)sInvalid choice%(reset)s\n" % values
+                err = "\n  %(red)sInvalid choice%(reset)s\n" % values
                 print err
             except ValueError:
-                err = "\n\t%(red)sInvalid choice%(reset)s\n" % values
+                err = "\n  %(red)sInvalid choice%(reset)s\n" % values
                 print err
 
         # Host
-        text = "Hostname [localhost]: "
+        text = "Hostname [%(reset)slocalhost%(cyan)s]%(reset)s: " % self.colorize
         values = dict(self.colorize, question=text)
         question = "%(cyan)s%(question)s%(reset)s" % values
         self.hostname = raw_input(question)
@@ -99,7 +105,9 @@ class GenerateProject(object):
         default_port = 80
         if self.config in [3, 4]:
             default_port = 8080
-        text = "Port [%s]: " % default_port
+        text = "Port [%(reset)s" % self.colorize
+        text += "%s" % default_port
+        text += "%(cyan)s]%(reset)s: " % self.colorize
         values = dict(self.colorize, question=text)
         question = "%(cyan)s%(question)s%(reset)s" % values
         while True:
@@ -111,11 +119,26 @@ class GenerateProject(object):
                 self.port = int(self.port)
                 break
             except ValueError:
-                err = "\n\t%(red)sInvalid port%(reset)s\n" % values
+                err = "\n  %(red)sInvalid port%(reset)s\n" % values
                 print err
 
+        # Database Engine
+        text = "Database Engine [%(reset)spostgresql_psycopg2%(cyan)s]%(reset)s: " % self.colorize
+        values = dict(self.colorize, question=text)
+        question = "%(cyan)s%(question)s%(reset)s" % values
+        DBCHOICES = ['postgresql_psycopg2', 'mysql', 'sqlite3', 'oracle']
+        while True:
+            self.database = raw_input(question)
+            if not self.database:
+                self.version = "postgresql_psycopg2"
+                break
+            if self.database in DBCHOICES:
+              break
+            err = "\n  %(red)sInvalid database engine choice%(reset)s\n" % values
+            print err
+
         # Django Version
-        text = "Django version [1.4]: "
+        text = "Django version [%(reset)s1.4%(cyan)s]%(reset)s: " % self.colorize
         values = dict(self.colorize, question=text)
         question = "%(cyan)s%(question)s%(reset)s" % values
         while True:
@@ -127,19 +150,23 @@ class GenerateProject(object):
                 self.version = float(self.version)
                 break
             except ValueError:
-                err = "\n\t%(red)sInvalid Django version%(reset)s\n" % values
+                err = "\n  %(red)sInvalid Django version%(reset)s\n" % values
                 print err
 
         # Production Server Path.
-        text = "Project production server path [/usr/local/projects]: "
+        text = ("Production server path ["
+                "%(reset)s/usr/local/projects%(cyan)s]%(reset)s: " %
+                self.colorize)
         values = dict(self.colorize, question=text)
         question = "%(cyan)s%(question)s%(reset)s" % values
         self.path = raw_input(question)
+
         if not self.path:
             self.path = "/usr/local/projects"
- 
+
         # Custom project template directory
-        text = "Custom project template directory: "
+        text = ("Custom template directory ["
+                "%(reset)sBuilt-in%(cyan)s]%(reset)s: " % self.colorize)
         values = dict(self.colorize, question=text)
         question = "%(cyan)s%(question)s%(reset)s" % values
         while True:
@@ -148,16 +175,28 @@ class GenerateProject(object):
                 break
             if os.path.isdir(self.template):
                 break
-            err = "\n\t%(red)sInvalid template directory%(reset)s\n" % values
+            err = "\n  %(red)sInvalid template directory%(reset)s\n" % values
             print err 
 
         # Project output directory
-        text = "Output project [%s]: " % DESTINATION
+        text = "Destination Directory [%(reset)s" % self.colorize
+        text += "%s" % DESTINATION
+        text += "%(cyan)s]%(reset)s: " % self.colorize
         values = dict(self.colorize, question=text)
         question = "%(cyan)s%(question)s%(reset)s" % values
         self.dest = raw_input(question)
         if not self.dest:
             self.dest = DESTINATION
+
+        # Verbose output
+        text = "Verbose output [%(reset)sno%(cyan)s]%(reset)s: " % self.colorize
+        values = dict(self.colorize, question=text)
+        question = "%(cyan)s%(question)s%(reset)s" % values
+        self.verbose = raw_input(question)
+        if self.verbose and self.verbose.lower() in ['y', 'yes', 'true', "1"]:
+            self.verbose = True
+        else:
+          self.verbose = False
 
     def validate_projectname(self):
         if not re.search(r'^[_a-zA-Z]\w*$', self.project):
@@ -166,7 +205,7 @@ class GenerateProject(object):
             else:
                 message = 'Use characters [a-z, A-Z, 0-9, _]'
             values = dict(self.colorize, name=self.project, message=message)
-            msg = "\n\t%(red)s%(name)s is an invalid project name. %(message)s.%(reset)s\n"
+            msg = "\n  %(red)s%(name)s is an invalid project name. %(message)s.%(reset)s\n"
             print  msg % values
             return False
         return True
@@ -181,8 +220,9 @@ class GenerateProject(object):
     def create(self):
         if self.wizard:
             self.run_wizard()
+            self.generate_projectpath()
         elif not self.validate_projectname():
-            err = "\t%(red)sInvalid Project Name%(reset)s" % values
+            err = "  %(red)sInvalid Project Name%(reset)s" % values
             print err
         elif self.validate_projectname():
             self.generate_projectpath()
@@ -207,6 +247,7 @@ class GenerateProject(object):
             'CONFIG': self.config,
             "PATH": self.path,
             "PROJECTPATH": self.projectpath,
+            "LOCALPATH": self.dest,
             "VERSION": self.version,
             "APACHENAME": 'apache2', # TODO: apache2 vs httpd.
         }
@@ -264,7 +305,8 @@ class GenerateProject(object):
 
                 # Is the current file safe for template rendering?
                 file_type = mimetypes.guess_type(f)[0]
-                if file_type and 'text' in file_type:
+                _fn, ext = os.path.splitext(f)
+                if ext in ALLOWED_EXTS or file_type and 'text' in file_type:
                     file_in = open(new_location)
                     template = Template(file_in.read())
                     rendered_template = template.render(render_dict)
